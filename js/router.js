@@ -1,6 +1,7 @@
 Todos.Router.map(function(){
     this.resource('todos', { path : '/'},function(){
     	this.route('active');
+    	this.route('completed');
     });
 });
 
@@ -14,13 +15,24 @@ Todos.TodosIndexRoute = Ember.Route.extend({
 		return this.modelFor('todos');
 	}
 });
-Todos.TodsoActiveRoute = Ember.Route.extend({
+Todos.TodosActiveRoute = Ember.Route.extend({
 	model: function(){
 		return this.store.filter('todo', function(todo){
 			return !todo.get('isCompleted');
 		});
 	}
    ,renderTemplate: function(controller){
-   		this.render('todo/index',{controller: controller});
+   		this.render('todos/index',{controller: controller});
+   }
+});
+
+Todos.TodosCompletedRoute = Ember.Route.extend({
+	model: function(){
+		return this.store.filter('todo', function(todo){
+			return todo.get('isCompleted');
+		});
+	}
+   ,renderTemplate: function(controller){
+   		this.render('todos/index',{controller: controller});
    }
 });
